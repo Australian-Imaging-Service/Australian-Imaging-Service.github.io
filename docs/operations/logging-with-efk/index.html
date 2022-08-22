@@ -1,0 +1,308 @@
+<!doctype html><html itemscope itemtype=http://schema.org/WebPage lang=en class=no-js><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.101.0"><meta name=robots content="index, follow"><link rel="shortcut icon" href=/favicons/favicon.ico><link rel=apple-touch-icon href=/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/favicons/android-96x96.png sizes=96x96><link rel=icon type=image/png href=/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/favicons/android-192x192.png sizes=192x192><title>Logging With EFK | Australian Imaging Service</title><meta name=description content="EFK centralized logging collecting and monitoring
+For AIS deployment, we use EFK stack on Kubernetes for log aggregation, monitoring and anyalysis. …"><meta property="og:title" content="Logging With EFK"><meta property="og:description" content="EFK centralized logging collecting and monitoring For AIS deployment, we use EFK stack on Kubernetes for log aggregation, monitoring and anyalysis. EFK is a suite of 3 different tools combining Elasticsearch, Fluentd and Kibana.
+Elasticsearch nodes form a cluster as the core. You can run single node Elasticsearch. However, a high availablity Elasticsearch cluster requires 3 master nodes as a minimum. If there is one node fails, the Elasticsearch cluster still functions and can self heal."><meta property="og:type" content="article"><meta property="og:url" content="https://australian-imaging-service.github.io/docs/operations/logging-with-efk/"><meta property="article:section" content="docs"><meta itemprop=name content="Logging With EFK"><meta itemprop=description content="EFK centralized logging collecting and monitoring For AIS deployment, we use EFK stack on Kubernetes for log aggregation, monitoring and anyalysis. EFK is a suite of 3 different tools combining Elasticsearch, Fluentd and Kibana.
+Elasticsearch nodes form a cluster as the core. You can run single node Elasticsearch. However, a high availablity Elasticsearch cluster requires 3 master nodes as a minimum. If there is one node fails, the Elasticsearch cluster still functions and can self heal."><meta itemprop=wordCount content="1405"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Logging With EFK"><meta name=twitter:description content="EFK centralized logging collecting and monitoring For AIS deployment, we use EFK stack on Kubernetes for log aggregation, monitoring and anyalysis. EFK is a suite of 3 different tools combining Elasticsearch, Fluentd and Kibana.
+Elasticsearch nodes form a cluster as the core. You can run single node Elasticsearch. However, a high availablity Elasticsearch cluster requires 3 master nodes as a minimum. If there is one node fails, the Elasticsearch cluster still functions and can self heal."><link rel=preload href=/scss/main.min.4fcfff0343ea96a2e3e6357f6439bf2aa6b360d339017fb504554f1b45eb65ab.css as=style><link href=/scss/main.min.4fcfff0343ea96a2e3e6357f6439bf2aa6b360d339017fb504554f1b45eb65ab.css rel=stylesheet integrity><script src=https://code.jquery.com/jquery-3.6.0.min.js integrity=sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK crossorigin=anonymous></script>
+<script defer src=https://unpkg.com/lunr@2.3.9/lunr.min.js integrity=sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli crossorigin=anonymous></script>
+<link rel=stylesheet href=/css/prism.css></head><body class=td-page><header><nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar"><a class=navbar-brand href=/><span class=navbar-logo></span><span class=font-weight-bold>Australian Imaging Service</span></a><div class="td-navbar-nav-scroll ml-md-auto" id=main_navbar><ul class="navbar-nav mt-2 mt-lg-0"><li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link active" href=/docs/ target=_blank><span class=active>Dev Documentation</span></a></li><li class="nav-item mr-4 mb-2 mb-lg-0"><a class=nav-link href=/user_docs/ target=_blank><span>User Documentation</span></a></li></ul></div><div class="navbar-nav d-none d-lg-block"><input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/offline-search-index.993b5ed7fa260fb9f2ee96fcb3ead33a.json data-offline-search-base-href=/ data-offline-search-max-results=10></div></nav></header><div class="container-fluid td-outer"><div class=td-main><div class="row flex-xl-nowrap"><aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none"><div id=td-sidebar-menu class=td-sidebar__inner><form class="td-sidebar__search d-flex align-items-center"><input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/offline-search-index.993b5ed7fa260fb9f2ee96fcb3ead33a.json data-offline-search-base-href=/ data-offline-search-max-results=10>
+<button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type=button data-toggle=collapse data-target=#td-section-nav aria-controls=td-section-nav aria-expanded=false aria-label="Toggle section navigation"></button></form><nav class="collapse td-sidebar-nav" id=td-section-nav><ul class="td-sidebar-nav__section pr-md-3 ul-0"><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id=m-docs-li><a href=/docs/ title=Documentation class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id=m-docs><span>Dev Documentation</span></a><ul class=ul-1><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id=m-docsinstruments-li><a href=/docs/instruments/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsinstruments><span>Instruments</span></a><ul class="ul-2 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsinstrumentsrc-milabsu-ct-li><a href=/docs/instruments/rc-milabsu-ct/ title="RC MILabsU-CT" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsinstrumentsrc-milabsu-ct><span>MILabs U-CT</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsinstruments3t-and-7t-mri-li><a href=/docs/instruments/3t-and-7t-mri/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsinstruments3t-and-7t-mri><span>MR Solutions 3T & 7T MRI</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsinstrumentssiemens-artis-pheno-li><a href=/docs/instruments/siemens-artis-pheno/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsinstrumentssiemens-artis-pheno><span>Siemens ARTIS pheno</span></a></li></ul></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsrepositories-li><a href=/docs/repositories/ title="Top level overview of the AIS repositories" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsrepositories><span>Repositories</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id=m-docsdeployment-li><a href=/docs/deployment/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsdeployment><span>Deployment</span></a><ul class="ul-2 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentalb-ingress-controller-li><a href=/docs/deployment/alb-ingress-controller/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentalb-ingress-controller><span>ALB Ingress Controller</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentazure-setup-full-li><a href=/docs/deployment/azure-setup-full/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentazure-setup-full><span>Azure Setup Full</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentistio-setup-li><a href=/docs/deployment/istio-setup/ title="Deploying Istio Service Mesh for our XNAT environment" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentistio-setup><span>Istio Setup</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentkustomize-li><a href=/docs/deployment/kustomize/ title="Using Kustomize as a Post renderer for the AIS XNAT Helm Chart" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentkustomize><span>Kustomize</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentlinode-setup-li><a href=/docs/deployment/linode-setup/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentlinode-setup><span>Linode setup</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentreadme-li><a href=/docs/deployment/readme/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentreadme><span></span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdeploymentxnat_quick_start_guide-li><a href=/docs/deployment/xnat_quick_start_guide/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdeploymentxnat_quick_start_guide><span>XNAT Quick Start Guide</span></a></li></ul></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id=m-docsdevelopment-li><a href=/docs/development/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsdevelopment><span>Development</span></a><ul class="ul-2 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentcicd-li><a href=/docs/development/cicd/ title="Continuous Integration / Continuous Delivery" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentcicd><span>CI/CD</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentmacos-multipass-k8s-li><a href=/docs/development/macos-multipass-k8s/ title="Development workstation with Multipass on MacOS" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentmacos-multipass-k8s><span>MacOS: Multipass</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentnixos-minikube-li><a href=/docs/development/nixos-minikube/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentnixos-minikube><span>NixOS: Minikube</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentubuntu-microk8s-li><a href=/docs/development/ubuntu-microk8s/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentubuntu-microk8s><span>Ubuntu: microk8s</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentwindows10-multipass-k8s-li><a href=/docs/development/windows10-multipass-k8s/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentwindows10-multipass-k8s><span>Windows 10: Multipass</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentxnat-chart-readme-li><a href=/docs/development/xnat-chart-readme/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentxnat-chart-readme><span>XNAT chart README</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentreferences-li><a href=/docs/development/references/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentreferences><span>References</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsdevelopmentreadme-li><a href=/docs/development/readme/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsdevelopmentreadme><span></span></a></li></ul></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id=m-docsoperations-li><a href=/docs/operations/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docsoperations><span>Operations</span></a><ul class="ul-2 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsaaf-integration-li><a href=/docs/operations/aaf-integration/ title="Integrating AAF with AIS Kubernetes XNAT Deployment" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsaaf-integration><span>AAF Integration</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsautoscaling-xnat-kubernetes-with-eks-li><a href=/docs/operations/autoscaling-xnat-kubernetes-with-eks/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsautoscaling-xnat-kubernetes-with-eks><span>Autoscaling XNAT on Kubernetes with EKS</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsdocker-swarm-with-xnat-li><a href=/docs/operations/docker-swarm-with-xnat/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsdocker-swarm-with-xnat><span>Docker Swarm with XNAT</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsexternal-pgsql-db-connection-li><a href=/docs/operations/external-pgsql-db-connection/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsexternal-pgsql-db-connection><span>External PGSQL DB Connection</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id=m-docsoperationslogging-with-efk-li><a href=/docs/operations/logging-with-efk/ class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id=m-docsoperationslogging-with-efk><span class=td-sidebar-nav-active-item>Logging With EFK</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationspostgresql-db-tuning-li><a href=/docs/operations/postgresql-db-tuning/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationspostgresql-db-tuning><span>PostgreSQL Database Tuning</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsrecommendations-li><a href=/docs/operations/recommendations/ title="Operational recommendations" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsrecommendations><span>Recommendations</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docsoperationsreadme-li><a href=/docs/operations/readme/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docsoperationsreadme><span></span></a></li></ul></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id=m-docscontributing-li><a href=/docs/contributing/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docscontributing><span>Contributing</span></a><ul class="ul-2 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id=m-docscontributingdocumentation-li><a href=/docs/contributing/documentation/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-docscontributingdocumentation><span>Documentation</span></a><ul class="ul-3 foldable"><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docscontributingdocumentationshortcodes-li><a href=/docs/contributing/documentation/shortcodes/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docscontributingdocumentationshortcodes><span>Shortcodes</span></a></li></ul></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docscontributingnew-repo-li><a href=/docs/contributing/new-repo/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docscontributingnew-repo><span>Integrating a new repository</span></a></li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-docscontributingreadme-li><a href=/docs/contributing/readme/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-docscontributingreadme><span></span></a></li></ul></li></ul></li></ul></nav></div></aside><aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none"><div class="td-page-meta ml-2 pb-1 pt-2 mb-0"><a href=https://github.com/Australian-Imaging-Service/charts/tree/main/docs/Charts/Operations/Logging-With-EFK.md class=td-page-meta--view target=_blank rel=noopener><i class="fa fa-file-alt fa-fw"></i> View page source</a>
+<a href=https://github.com/Australian-Imaging-Service/charts/edit/main/docs/Charts/Operations/Logging-With-EFK.md class=td-page-meta--edit target=_blank rel=noopener><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/Australian-Imaging-Service/charts/new/main/docs/Charts/Operations/Logging-With-EFK.md?filename=change-me.md&value=---%0Atitle%3A+%22Long+Page+Title%22%0AlinkTitle%3A+%22Short+Nav+Title%22%0Aweight%3A+100%0Adescription%3A+%3E-%0A+++++Page+description+for+heading+and+indexes.%0A---%0A%0A%23%23+Heading%0A%0AEdit+this+template+to+create+your+new+page.%0A%0A%2A+Give+it+a+good+name%2C+ending+in+%60.md%60+-+e.g.+%60getting-started.md%60%0A%2A+Edit+the+%22front+matter%22+section+at+the+top+of+the+page+%28weight+controls+how+its+ordered+amongst+other+pages+in+the+same+directory%3B+lowest+number+first%29.%0A%2A+Add+a+good+commit+message+at+the+bottom+of+the+page+%28%3C80+characters%3B+use+the+extended+description+field+for+more+detail%29.%0A%2A+Create+a+new+branch+so+you+can+preview+your+new+file+and+request+a+review+via+Pull+Request.%0A" class=td-page-meta--child target=_blank rel=noopener><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/Australian-Imaging-Service/charts/issues/new?title=Logging%20With%20EFK" class=td-page-meta--issue target=_blank rel=noopener><i class="fab fa-github fa-fw"></i> Create documentation issue</a></div><div class=td-toc><nav id=TableOfContents><ul><li><a href=#efk-centralized-logging-collecting-and-monitoring>EFK centralized logging collecting and monitoring</a><ul><li><a href=#creating-a-new-namespace-for-efk>Creating a new namespace for EFK</a></li><li><a href=#add-official-helm-repos>Add official Helm repos</a></li><li><a href=#install-elaticsearch>Install Elaticsearch</a></li></ul></li><li><a href=#heading></a><ul><li><a href=#install-kibana>Install Kibana</a></li></ul></li><li><a href=#heading-1></a><ul><li><a href=#install-fluentd>Install Fluentd</a></li></ul></li></ul></nav></div></aside><main class="col-12 col-md-9 col-xl-8 pl-md-5" role=main><nav aria-label=breadcrumb class=td-breadcrumbs><ol class=breadcrumb><li class=breadcrumb-item><a href=https://australian-imaging-service.github.io/docs/>Dev Documentation</a></li><li class=breadcrumb-item><a href=https://australian-imaging-service.github.io/docs/operations/>Operations</a></li><li class="breadcrumb-item active" aria-current=page><a href=https://australian-imaging-service.github.io/docs/operations/logging-with-efk/ aria-disabled=true class="btn-link disabled">Logging With EFK</a></li></ol></nav><div class=td-content><h1>Logging With EFK</h1><header class=article-meta></header><h2 id=efk-centralized-logging-collecting-and-monitoring>EFK centralized logging collecting and monitoring</h2><p>For AIS deployment, we use EFK stack on Kubernetes for log aggregation, monitoring and anyalysis. EFK is a suite of 3 different tools combining Elasticsearch, Fluentd and Kibana.</p><p>Elasticsearch nodes form a cluster as the core. You can run single node Elasticsearch. However, a high availablity Elasticsearch cluster requires 3 master nodes as a minimum. If there is one node fails, the Elasticsearch cluster still functions and can self heal.</p><p>Kibana instance is used as the visualisation tool for users to interact with the Elasticsearch cluster.</p><p>Fluentd is used as the log collector.</p><p>In the following guide, we leverage Elastic and Fluentd&rsquo;s official Helm charts before using Kustomize to customize other required K8s resources.</p><h3 id=creating-a-new-namespace-for-efk>Creating a new namespace for EFK</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ kubectl create ns efk
+</span></span></code></pre></div><h3 id=add-official-helm-repos>Add official Helm repos</h3><p>For both Elasticsearch and Kibana:</p><pre tabindex=0><code>$ helm repo add elastic https://helm.elastic.co
+</code></pre><p>As of this writing, the latest helm repo supports Elasticsearch 7.17.3. It doesn&rsquo;t work with the latest Elasticsearch v8.3 yet.</p><p>For Fluentd:</p><pre tabindex=0><code>$ helm repo add fluent https://fluent.github.io/helm-charts
+</code></pre><h3 id=install-elaticsearch>Install Elaticsearch</h3><p>Adhere to the Elasticsearch security principles, all traffic between nodes in Elasticsearch cluster and traffic between the clients to the cluster needs to be encrypted. You use self signed certicate in this guide.</p><h4 id=generating-self-signed-ca-and-certificates>Generating self signed CA and certificates</h4><ul><li>Below we use elasticsearch-certutil to generate password protected self signed CA and certificates, then use openssl tool to convert it to pem formatted certificate</li></ul><pre tabindex=0><code>$ docker rm -f elastic-helm-charts-certs || true
+$ rm -f elastic-certificates.p12 elastic-certificate.pem elastic-certificate.crt elastic-stack-ca.p12 || true
+$ docker run --name elastic-helm-charts-certs -i -w /tmp docker.elastic.co/elasticsearch/elasticsearch:7.16.3 \
+/bin/sh -c &#34; \
+  elasticsearch-certutil ca --out /tmp/elastic-stack-ca.p12 --pass &#39;Changeme&#39; &amp;&amp; \
+  elasticsearch-certutil cert --name security-master --dns security-master --ca /tmp/elastic-stack-ca.p12 --pass &#39;Changeme&#39; --ca-pass &#39;Changeme&#39; --out /tmp/elastic-certificates.p12&#34; &amp;&amp; \
+docker cp elastic-helm-charts-certs:/tmp/elastic-stack-ca.p12 ./ &amp;&amp; \
+docker cp elastic-helm-charts-certs:/tmp/elastic-certificates.p12 ./ &amp;&amp; \
+docker rm -f elastic-helm-charts-certs &amp;&amp; \
+openssl pkcs12 -nodes -passin pass:&#39;Changeme&#39; -in elastic-certificates.p12 -out elastic-certificate.pem
+openssl pkcs12 -nodes -passin pass:&#39;Changeme&#39; -in elastic-stack-ca.p12 -out elastic-ca-cert.pem
+</code></pre><ul><li>Convert the generated CA and certificates to based64 encoded format. These will be used to create the secrets in K8s. Alternatively, you can use kubectl to create the secrets directly</li></ul><pre tabindex=0><code>$ base64 -i elastic-certificates.p12 -o elastic-certificates-base64
+$ base64 -i elastic-stack-ca.p12 -o elastic-stack-ca-base64
+</code></pre><ul><li>Generate base64 encoded format for passwords for keystore and truststore.</li></ul><pre tabindex=0><code>$ echo -n Changeme | base64 &gt; store-password-base64
+</code></pre><h4 id=create-helm-custom-values-file-elasticsearchyml>Create Helm custom values file elasticsearch.yml</h4><ul><li>Creating 3 master nodes Elasticsearch cluster named &ldquo;elasticsearch&rdquo;.</li></ul><pre tabindex=0><code>clusterName: elasticsearch
+replicas: 3
+minimumMasterNodes: 2
+</code></pre><ul><li>Specify the compute resources you allocate to Elasticsearch pod</li></ul><pre tabindex=0><code>resources:
+  requests:
+    cpu: &#34;1000m&#34;
+    memory: &#34;2Gi&#34;
+  limits:
+    cpu: &#34;1000m&#34;
+    memory: &#34;2Gi&#34;
+</code></pre><ul><li>Specify the password for the default super user &rsquo;elastic'</li></ul><pre tabindex=0><code>secret:
+  enabled: false
+  password: Changeme
+</code></pre><ul><li>Specify the protocol used for readniess probe. Use https for all traffic to the cluster on encypted link</li></ul><pre tabindex=0><code>protocol: https
+</code></pre><ul><li>Disable the SSL certificate auto creation, we&rsquo;ll use self signed certificate created earlier</li></ul><pre tabindex=0><code>createCert: false
+</code></pre><ul><li>Configuration for the volumeClaimTemplate for Elasticsearch statefulset. A customised storage class &rsquo;es-ais&rsquo; will be defined by Kustomize</li></ul><pre tabindex=0><code>volumeClaimTemplate:
+  accessModes: [&#34;ReadWriteMany&#34;]
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: es-ais
+</code></pre><ul><li>Mount the secret</li></ul><pre tabindex=0><code>secretMounts:
+  - name: elastic-certificates
+    secretName: elastic-certificates
+    path: /usr/share/elasticsearch/config/certs
+</code></pre><ul><li>Add configuration file elasticsearch.yaml. Enable transport TLS for internode encrypted communication and HTTP TLS for client encryped communication. Previously generated certificates are used, they are passed in from the mounted Secrets</li></ul><pre tabindex=0><code>esConfig:
+  elasticsearch.yml: |
+    xpack.security.enabled: true
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.transport.ssl.verification_mode: certificate
+    xpack.security.transport.ssl.client_authentication: required
+    xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+    xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+    xpack.security.http.ssl.enabled: true
+    xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+</code></pre><ul><li>Map secrets into the keystore</li></ul><pre tabindex=0><code>keystore:
+  - secretName: transport-ssl-keystore-password
+  - secretName: transport-ssl-truststore-password
+  - secretName: http-ssl-keystore-password
+</code></pre><ul><li>Supply extra environment varialbes.</li></ul><pre tabindex=0><code>extraEnvs:
+  - name: &#34;ELASTIC_PASSWORD&#34;
+    value: Changeme
+</code></pre><h4 id=kustomize-for-elasticsearch>Kustomize for Elasticsearch</h4><ul><li>Create Kustomize file kustomization.yaml</li></ul><pre tabindex=0><code>apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - all.yaml
+  - storageclass.yaml
+  - secrets.yaml
+</code></pre><ul><li>Create storageclass.yaml as referenced above. Below is the example when using AWS EFS as the persistent storage. You can adjust to suit your storage infrastructure.</li></ul><pre tabindex=0><code>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: es-ais
+provisioner: efs.csi.aws.com
+mountOptions:
+- tls
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: YourEFSFileSystemId
+  directoryPerms: &#34;1000&#34;
+</code></pre><ul><li>Create secrets.yaml as referenced. Secrets created are used in the custom values file</li></ul><pre tabindex=0><code>apiVersion: v1
+data:
+  elastic-certificates.p12: CopyAndPasteValueOf-elastic-certificates-base64
+kind: Secret
+metadata:
+  name: elastic-certificates
+  namespace: efk
+type: Opaque
+---
+apiVersion: v1
+data:
+  xpack.security.transport.ssl.keystore.secure_password: CopyAndPasteValueOf-store-password-base64
+kind: Secret
+metadata:
+  name: transport-ssl-keystore-password
+  namespace: efk
+type: Opaque
+---
+apiVersion: v1
+data:
+  xpack.security.transport.ssl.truststore.secure_password: CopyAndPasteValueOf-store-password-base64
+kind: Secret
+metadata:
+  name: transport-ssl-truststore-password
+  namespace: efk
+type: Opaque
+---
+apiVersion: v1
+data:
+  xpack.security.http.ssl.keystore.secure_password: CopyAndPasteValueOf-store-password-base64
+kind: Secret
+metadata:
+  name: http-ssl-keystore-password
+  namespace: efk
+type: Opaque
+</code></pre><h4 id=install-elasticsearch-helm-chart>Install Elasticsearch Helm chart</h4><p>Change to where your Kustomize directory for Elasticsearch and run</p><pre tabindex=0><code>$ helm upgrade -i -n efk es elastic/elasticsearch -f YourCustomValueDir/elasticsearch.yml --post-renderer ./kustomize
+</code></pre><p>Wait till you will see all elasticsearch pods are in &ldquo;running&rdquo; status</p><pre tabindex=0><code>$ kubectl get po -n efk -l app=elasticsearch-master
+</code></pre><h2 id=heading></h2><h3 id=install-kibana>Install Kibana</h3><p>Kibana enables the visual analysis of data from Elasticsearch indecies. In this guide, we use single instance.</p><h4 id=create-helm-custom-values-file-kibanayaml>Create Helm custom values file kibana.yaml</h4><ul><li>Specify the URL to connect to Elasticsearch. We use the service name and port configured in Elaticsearch</li></ul><pre tabindex=0><code>elasticsearchHosts: &#34;https://elasticsearch-master:9200&#34;
+</code></pre><ul><li>Specify the protocol for Kibana&rsquo;s readiness check</li></ul><pre tabindex=0><code>protocol: https
+</code></pre><ul><li>Add below kibana.yml configuration file that enables Kinana to talk to Elasticsearch on encrypted connection.
+For xpack.security.encryptionKey, you can use any text string that is at least 32 characters. Certificates are mounted from the secret resource</li></ul><pre tabindex=0><code>kibanaConfig:
+  kibana.yml: |
+    server.ssl:
+      enabled: true
+      key: /usr/share/kibana/config/certs/elastic-certificate.pem
+      certificate: /usr/share/kibana/config/certs/elastic-certificate.pem
+    xpack.security.encryptionKey: Changeme
+    elasticsearch.ssl:
+      certificateAuthorities: /usr/share/kibana/config/certs/elastic-ca-cert.pem
+      verificationMode: certificate
+    elasticsearch.hosts: https://elasticsearch-master:9200
+</code></pre><ul><li>Supply PEM formated Elastic certificate. These certificates will be used in kibana.yml in previous step</li></ul><pre tabindex=0><code>secretMounts:
+  - name: elastic-certificates-pem
+    secretName: elastic-certificates-pem
+    path: /usr/share/kibana/config/certs
+</code></pre><ul><li>Configure extra environment variables to pass to Kibana container on starting up.</li></ul><pre tabindex=0><code>extraEnvs:
+  - name: &#34;KIBANA_ENCRYPTION_KEY&#34;
+    valueFrom:
+      secretKeyRef:
+        name: kibana
+        key: encryptionkey
+  - name: &#34;ELASTICSEARCH_USERNAME&#34;
+    value: elastic
+  - name: &#34;ELASTICSEARCH_PASSWORD&#34;
+    value: changeme
+</code></pre><ul><li>We expose Kibana as the NodePort service.</li></ul><pre tabindex=0><code>service:
+  type: NodePort
+</code></pre><h4 id=kustomize-for-kibana>Kustomize for Kibana</h4><ul><li>Define Secrets that is used in kibana.yml</li></ul><pre tabindex=0><code>apiVersion: v1
+data:
+  # use base64 format of values of elasticsearch&#39;s elastic-certificate.pem and elastic-ca-cert.pem
+  elastic-certificate.pem: Changeme
+  elastic-ca-cert.pem: Changme
+kind: Secret
+metadata:
+  name: elastic-certificates-pem
+  namespace: efk
+type: Opaque
+---
+apiVersion: v1
+data:
+  # use base64 format of the value you use for xpack.security.encryptionKey 
+  encryptionkey: Changeme
+kind: Secret
+metadata:
+  name: kibana
+  namespace: efk
+type: Opaque
+</code></pre><ul><li>Optional: create an Ingress resource to point to the Kibana serivce</li></ul><h4 id=installupdate-the-kibana-chart>Install/update the Kibana chart</h4><p>Change to where your Kustomize directory for Kibana and run</p><pre tabindex=0><code>$ helm upgrade -i -n efk kibana elastic/kibana -f YourCustomValueDirForKibana/kibana.yml --post-renderer ./kustomize
+</code></pre><p>Wait till you will see the kibana pod is in &ldquo;running&rdquo; status</p><pre tabindex=0><code>$ kubectl get po -n efk -l app=kibana
+</code></pre><h2 id=heading-1></h2><h3 id=install-fluentd>Install Fluentd</h3><h4 id=create-a-custom-helm-values-file-fluentdyaml>Create a custom Helm values file fluentd.yaml</h4><ul><li>Specify where to output the logs</li></ul><pre tabindex=0><code>elasticsearch:
+  host: elasticsearch-master
+</code></pre><h4 id=kustomize-for-fluentd>Kustomize for Fluentd</h4><ul><li>Create a ConfigMap that includes all Fluentd configuration files as below or you can use your own configuration files.</li></ul><pre tabindex=0><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+data:
+  01_sources.conf: |-
+    ## logs from podman
+    &lt;source&gt;
+      @type tail
+      @id in_tail_container_logs
+      @label @KUBERNETES
+      # path /var/log/containers/*.log
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      &lt;parse&gt;
+        @type multi_format
+        &lt;pattern&gt;
+          format json
+          time_key time
+          time_type string
+          time_format &#34;%Y-%m-%dT%H:%M:%S.%NZ&#34;
+          keep_time_key true
+        &lt;/pattern&gt;
+        &lt;pattern&gt;
+          format regexp
+          expression /^(?&lt;time&gt;.+) (?&lt;stream&gt;stdout|stderr)( (.))? (?&lt;log&gt;.*)$/
+          time_format &#39;%Y-%m-%dT%H:%M:%S.%NZ&#39;
+          keep_time_key true
+        &lt;/pattern&gt;
+      &lt;/parse&gt;
+      emit_unmatched_lines true
+    &lt;/source&gt;
+  02_filters.conf: |-
+    &lt;label @KUBERNETES&gt;
+      &lt;match kubernetes.var.log.containers.fluentd**&gt;
+        @type relabel
+        @label @FLUENT_LOG
+      &lt;/match&gt;
+    
+      &lt;match kubernetes.var.log.containers.**_kube-system_**&gt;
+        @type null
+        @id ignore_kube_system_logs
+      &lt;/match&gt;
+
+      &lt;match kubernetes.var.log.containers.**_efk_**&gt;
+        @type null
+        @id ignore_efk_stack_logs
+      &lt;/match&gt;
+
+      &lt;filter kubernetes.**&gt;
+        @type kubernetes_metadata
+        @id filter_kube_metadata
+        skip_labels true
+        skip_container_metadata true
+        skip_namespace_metadata true
+        skip_master_url true
+      &lt;/filter&gt;
+    
+      &lt;match **&gt;
+        @type relabel
+        @label @DISPATCH
+      &lt;/match&gt;
+    &lt;/label&gt;
+  03_dispatch.conf: |-
+    &lt;label @DISPATCH&gt;
+      &lt;filter **&gt;
+        @type prometheus
+        &lt;metric&gt;
+          name fluentd_input_status_num_records_total
+          type counter
+          desc The total number of incoming records
+          &lt;labels&gt;
+            tag ${tag}
+            hostname ${hostname}
+          &lt;/labels&gt;
+        &lt;/metric&gt;
+      &lt;/filter&gt;
+    
+      &lt;match **&gt;
+        @type relabel
+        @label @OUTPUT
+      &lt;/match&gt;
+    &lt;/label&gt;
+  04_outputs.conf: |-
+    &lt;label @OUTPUT&gt;
+      &lt;match kubernetes.**&gt;
+        @id detect_exception
+        @type detect_exceptions
+        remove_tag_prefix kubernetes
+        message log
+        multiline_flush_interval 3
+        max_bytes 500000
+        max_lines 1000
+      &lt;/match&gt;
+      &lt;match **&gt;
+        @type copy
+        &lt;store&gt;
+          @type stdout
+        &lt;/store&gt;
+        &lt;store&gt;
+          @type elasticsearch
+          host &#34;elasticsearch-master&#34;
+          port 9200
+          path &#34;&#34;
+          user elastic
+          password Changeme
+          index_name ais.${tag}.%Y%m%d
+          scheme https
+          # set to false for self-signed cert
+          ssl_verify false
+          # supply El&#39;s ca certificat if it&#39;s trusted
+          # ca_file /tmp/elastic-ca-cert.pem
+          ssl_version TLSv1_2
+          &lt;buffer tag, time&gt;
+            # timekey 3600 # 1 hour time slice
+            timekey 60 # 1 min time slice
+            timekey_wait 10
+          &lt;/buffer&gt;
+        &lt;/store&gt;
+      &lt;/match&gt;
+    &lt;/label&gt;
+</code></pre><h4 id=installupdate-the-fluentd-chart>Install/update the Fluentd chart</h4><p>Change to where your Kustomize directory for Fluentd and run</p><pre tabindex=0><code>$ helm upgrade -i -n efk fluentd fluent/fluentd --values YourCustomValueDirForFluentd/fluentd.yml --post-renderer ./kustomize
+</code></pre><p>Fluentd is created using Daemonset which ensure a Fluentd pod is created on each worker node. Wait till you will see the fluentd pods are in &ldquo;running&rdquo; status</p><pre tabindex=0><code>$ kubectl get po -l app.kubernetes.io/name=fluentd -n efk
+</code></pre><div class="text-muted mt-5 pt-3 border-top">Last modified
+August 22, 2022: <a href=https://github.com/Australian-Imaging-Service/charts/commit/e79df43b5aa39e76d5fc6c89d51441a6a4105be7>efk docs (e79df43)</a></div></div></main></div></div></div><script src=https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js integrity=sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin=anonymous></script>
+<script src=/js/tabpane-persist.js></script>
+<script src=/js/main.min.91798a335c881f1b6b805085ba4aa22d1dbd2b0b18d105d05189fa104ddae350.js integrity="sha256-kXmKM1yIHxtrgFCFukqiLR29KwsY0QXQUYn6EE3a41A=" crossorigin=anonymous></script>
+<script src=/js/prism.js></script></body></html>
