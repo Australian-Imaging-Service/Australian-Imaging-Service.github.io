@@ -11,7 +11,7 @@ title: Australian Imaging Service
 
 
 {{% blocks/lead color="primary" %}}
-As part of the ARDC 2019 Project’s scheme, we have built a distributed, national federation for securely managing and analyzing imaging data for research, with a focus on radiology and biomedical applications.
+As part of the [ARDC 2019 Project’s scheme](https://ardc.edu.au/project/australian-imaging-service-ais/), we have built a distributed, national federation for securely managing and analyzing imaging data for research, with a focus on radiology and biomedical applications.
 {{% /blocks/lead %}}
 
 
