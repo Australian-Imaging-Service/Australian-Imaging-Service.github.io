@@ -2,7 +2,7 @@
 title: Australian Imaging Service
 ---
 
-{{< blocks/cover title="Australian Imaging Service: Transforming the imaging and radiology sector" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Australian Imaging Service: Transforming the imaging and radiology sector" image_anchor="top" height="auto" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="/docs/">
   Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
@@ -15,7 +15,7 @@ The Australian Imaging Service (AIS) is a national platform for secure imaging (
 Our mission is to increase research reproducibility and drive the adoption of innovative but trusted analysis techniques. We aim to create a unified service underpinning all imaging research conducted by Australians, both nationally and abroad, on which more specific research and development programs can be built.
 {{% /blocks/lead %}}
 
-{{% blocks/section color="white" type="container" %}}
+{{% blocks/lead color="white" %}}
 {{< cardpane >}}
 {{< card header="![Collaboration](collaborative.svg)" >}}
 NCRIS funded national platform for collaborative imaging research
@@ -33,7 +33,7 @@ Browser accessible viewing, annotation, and analysis
 One-click reproducible pipeline library, curated collection and custom developed
 {{< /card >}}
 {{< /cardpane >}}
-{{% /blocks/section %}}
+{{% /blocks/lead %}}
 
 {{% blocks/section color="white" type="row" %}}
 {{% blocks/feature icon="" %}}
