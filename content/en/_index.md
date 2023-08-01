@@ -9,41 +9,55 @@ title: Australian Imaging Service
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 
-
 {{% blocks/lead color="primary" %}}
-As part of the [ARDC 2019 Project’s scheme](https://ardc.edu.au/project/australian-imaging-service-ais/), we have built a distributed, national federation for securely managing and analyzing imaging data for research, with a focus on radiology and biomedical applications.
+The Australian Imaging Service (AIS) is a national platform for secure imaging (predominately clinical, preclinical, veterinary, and archaeological) management, analysis, informatics, and machine learning, led by the University of Sydney in partnership and with co-investment from the Australian Research Data Commons (ARDC), the National Imaging Facility (NIF), and 10 other universities and research organizations.
+
+Our mission is to increase research reproducibility and drive the adoption of innovative but trusted analysis techniques. We aim to create a unified service underpinning all imaging research conducted by Australians, both nationally and abroad, on which more specific research and development programs can be built.
 {{% /blocks/lead %}}
 
+{{% blocks/section color="white" type="container" %}}
+{{< cardpane >}}
+{{< card header="![Collaboration](collaborative.svg)" >}}
+NCRIS funded national platform for collaborative imaging research
+{{< /card >}}
+{{< card header="![Imaging](imaging.svg)" >}}
+Integration with imaging facilities and clinical sites
+{{< /card >}}
+{{< card header="![Secure](secure.svg)" >}}
+Secure, audited data management, access, and de-identification
+{{< /card >}}
+{{< card header="![Accessible](viewing.svg)" >}}
+Browser accessible viewing, annotation, and analysis
+{{< /card >}}
+{{< card header="![One Click](one-click.svg)" >}}
+One-click reproducible pipeline library, curated collection and custom developed
+{{< /card >}}
+{{< /cardpane >}}
+{{% /blocks/section %}}
 
 {{% blocks/section color="white" type="row" %}}
-# Project
-{.centre}
+{{% blocks/feature icon="" %}}
+{{< card header="Edge devices" >}}Upload and process data from clinical sites and imaging facilities{{< /card >}}
+{{< card header="AIS nodes" >}}Linked data repositories with shared library of containerised pipelines and analysis tools deployed on Kubernetes{{< /card >}}
+{{< card header="AIS data portal" >}}Open fronted for findable metadata (opt-in){{< /card >}}
+{{< card header="AIS website" >}}Single landing page and documentation{{< /card >}}
+{{< card header="AIS repositories" >}} Shared cloud native codebase on GitHub{{< /card >}}
+{{% /blocks/feature %}}
 
-Universities and clinical sites across Australia are struggling to manage large volumes of imaging data, while balancing patient privacy and the need for sharing and accessibility in the research community. The Australian Imaging Service will transform the imaging and radiology sector by leveraging institutional investments and providing enhanced data management and analysis. The distributed federation will consist of multiple institutional deployments linked with a federated search layer, common community practice, support for expanded data types and a Trusted Tool Repository ensuring ongoing ownership and accountability of data.
+{{% blocks/feature icon="" title="Australian Imaging Service - Federated model" %}}
+<img src="federated-model.svg" width="800" />
+{{% /blocks/feature %}}
 
+AIS operates as a federation, co-maintaining a central set of software repositories with each partner institution operating their own node matching their local governance, infrastructure, and cost structures. AIS integrates with imaging devices in a hub and spoke model, with each node integrating their local academic and clinical equipment, with data able to be transferred between nodes to facilitate multi-site imaging studies. By adopting and standardizing user authentication, instrument integration, data ontologies, and mature software tools, AIS allows researchers and facilities to focus more of their time on innovation and allows reuse of national datasets by building a provenance trail from image capture to manipulation
+{{% /blocks/section %}}
 
-## Members
+{{% blocks/section color="white" type="container" %}}
+# Data centric computing - Four integrated capability areas
 
-* University of Sydney
-* Australian Research Data Commons
-* National Imaging Facilities
-* Australian Catholic University
-* Macquarie University
-* Monash University
-* Queensland University of Technology
-* University of New South Wales
-* University of Queensland
-* University of Swinburne
-* University of Western Australia
-* University of Wollongong
-* The Florey
-* South Australian Health and Medical Research Institute (SAHMRI)
+<img src="four-capability-areas.svg" width="1000" />
+{{% /blocks/section %}}
 
-## Supporting Technologies
+{{% blocks/section color="white" type="container" %}}
+# Funding and acknowledgements
 
-* XNAT
-* OHIF
-* REDCap
-* CLARA
-* Gadgetron
 {{% /blocks/section %}}
