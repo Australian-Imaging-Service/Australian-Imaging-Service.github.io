@@ -33,13 +33,12 @@ Browser accessible viewing, annotation, and analysis
 One-click reproducible pipeline library, curated collection and custom developed
 {{< /card >}}
 {{< /cardpane >}}
-{.center}
 {{% /blocks/section %}}
 
 {{% blocks/section color="white" %}}
 # Australian Imaging Service - Federated model
 
-<img src="federated-model-all.svg" width="1000" />
+<img src="federated-model-all.svg" width="100%" />
 
 AIS operates as a federation, co-maintaining a central set of software repositories with each partner institution operating their own node matching their local governance, infrastructure, and cost structures. AIS integrates with imaging devices in a hub and spoke model, with each node integrating their local academic and clinical equipment, with data able to be transferred between nodes to facilitate multi-site imaging studies. By adopting and standardizing user authentication, instrument integration, data ontologies, and mature software tools, AIS allows researchers and facilities to focus more of their time on innovation and allows reuse of national datasets by building a provenance trail from image capture to manipulation
 {{% /blocks/section %}}
@@ -47,7 +46,7 @@ AIS operates as a federation, co-maintaining a central set of software repositor
 {{% blocks/section color="white" type="container" %}}
 # Data centric computing - Four integrated capability areas
 
-<img src="four-capability-areas.svg" width="1000" />
+<img src="four-capability-areas.svg" width="100%" />
 {{% /blocks/section %}}
 
 {{% blocks/section color="white" type="container" %}}
