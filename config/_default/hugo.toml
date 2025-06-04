@@ -16,6 +16,10 @@ enableGitInfo = true
 # Comment out to enable taxonomies in Docsy
 # disableKinds = ["taxonomy", "taxonomyTerm"]
 
+[caches]
+[caches.images]
+dir = ':cacheDir/images'
+
 # You can add your own taxonomies
 [taxonomies]
 tag = "tags"
