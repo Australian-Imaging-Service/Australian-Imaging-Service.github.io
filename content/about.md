@@ -13,5 +13,5 @@ designation: 'Director, Australian Imaging Service'
 ---
 
 {{< render_federated_model >}}
-{{< right_aligned_image_with_desc heading="Compliance" content="Details are being prepared and will be added soon." img_path="images/main/pages/compliance.png" button="Start your compliance docs &nbsp;&nbsp;>">}}
+{{< right_aligned_image_with_desc heading="Compliance" img_path="images/main/pages/compliance.png" button="Start your compliance docs &nbsp;&nbsp;>">}}
 {{< funded_by >}}

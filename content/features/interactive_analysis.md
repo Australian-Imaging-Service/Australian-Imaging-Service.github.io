@@ -10,9 +10,9 @@ buttonText: "Start your analysis &nbsp;&nbsp;>"
 
 {{< alert context="primary" text="This page is being developed. Some sections are placeholders until content is finalised." />}}
 
-{{< title_and_desc title="Data Centric Computing" description="Details are being prepared and will be added soon." link_text="Start your analysis &nbsp;&nbsp;>">}}
+{{< title_and_desc title="Data Centric Computing" link_text="Start your analysis &nbsp;&nbsp;>">}}
 
-{{< title_and_desc title="Real-time image visualisations" description="Details are being prepared and will be added soon." link_text="Open Health Imaging Foundation website">}}
+{{< title_and_desc title="Real-time image visualisations" link_text="Open Health Imaging Foundation website">}}
 
 {{< title_and_desc title="Increase your research flexibility with our recommended tools." >}}
 

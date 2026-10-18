@@ -1,4 +1,4 @@
 <div class="row g-5 my-4">
   <div class="col-lg-4"><h2 class="fw-bold">{{ .Get "title" }}</h2></div>
-  <div class="col-lg-8"><div class="fs-5 text-muted">{{ .Get "content" | markdownify }}</div></div>
+  {{ with .Get "content" }}<div class="col-lg-8"><div class="fs-5 text-muted">{{ . | markdownify }}</div></div>{{ end }}
 </div>
