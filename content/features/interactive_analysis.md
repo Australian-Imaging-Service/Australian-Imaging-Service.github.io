@@ -4,13 +4,15 @@ title: "Interactive Analysis"
 date: 2026-01-09T11:10:36+08:00
 draft: false
 language: en
-description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan lacus vel facilisis volutpat est velit egestas"
+description: "On-demand analysis environments pre-loaded with imaging software."
 buttonText: "Start your analysis &nbsp;&nbsp;>"
 ---
 
-{{< title_and_desc title="Data Centric Computing" description="Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit.Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit. Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit. Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit." link_text="Start your analysis &nbsp;&nbsp;>">}}
+{{< alert context="primary" text="This page is being developed. Some sections are placeholders until content is finalised." />}}
 
-{{< title_and_desc title="Real-time image visualisations" description="Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit.Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit. Morbi aliquam porttitor mattis consequat neque, tellus blandit. Commodo diam vulputate dui proin quis enim nibh." link_text="Open Health Imaging Foundation website">}}
+{{< title_and_desc title="Data Centric Computing" link_text="Start your analysis &nbsp;&nbsp;>">}}
+
+{{< title_and_desc title="Real-time image visualisations" link_text="Open Health Imaging Foundation website">}}
 
 {{< title_and_desc title="Increase your research flexibility with our recommended tools." >}}
 
